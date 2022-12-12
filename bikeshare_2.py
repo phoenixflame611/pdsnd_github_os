@@ -21,7 +21,8 @@ def get_filters():
 
     while True: 
         #format input string as lower to avoid error related to punctuation and to match CITY_DATA 
-        city = input("Type in the City you are interested in (Chicago, New York City, or Washington: ").lower()        
+        city = input("Type in the City you are interested in (Chicago, New York City, or Washington: ").lower()   
+        #check if city is in allowable, if not ask for input again
         if city not in ("new york city", "chicago", "washington"):
             print("Incorrect input for City. PLease try again")  
             continue
@@ -32,6 +33,7 @@ def get_filters():
     while True: 
         #format input string as lower to avoid error related to punctuation 
         month = input("Type in the month you are interested in (January, February, March, April, May, June, or All)): ").lower()
+        #check if month is in allowable, if not ask for input again
         if month not in ("january", "february", "march", "april", "may", "june", "all"):
             print("Incorrect input for Month. PLease try again") 
             continue
@@ -42,6 +44,7 @@ def get_filters():
     while True: 
         #format input string as lower to avoid error related to punctuation
         day = input("Type in the day you are interested in (Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday, or All)): ").lower()
+        #check if day is in allowable, if not ask for input again
         if day not in ("sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "all"):
             print("Incorrect input for Day. PLease try again") 
             continue
