@@ -21,7 +21,8 @@ def get_filters():
 
     while True: 
         #format input string as lower to avoid error related to punctuation and to match CITY_DATA 
-        city = input("Type in the City you are interested in (Chicago, New York City, or Washington: ").lower()        
+        city = input("Type in the City you are interested in (Chicago, New York City, or Washington: ").lower()   
+        #check if city is in allowable, if not ask for input again
         if city not in ("new york city", "chicago", "washington"):
             print("Incorrect input for City. PLease try again")  
             continue
@@ -32,6 +33,7 @@ def get_filters():
     while True: 
         #format input string as lower to avoid error related to punctuation 
         month = input("Type in the month you are interested in (January, February, March, April, May, June, or All)): ").lower()
+        #check if month is in allowable, if not ask for input again
         if month not in ("january", "february", "march", "april", "may", "june", "all"):
             print("Incorrect input for Month. PLease try again") 
             continue
@@ -42,6 +44,7 @@ def get_filters():
     while True: 
         #format input string as lower to avoid error related to punctuation
         day = input("Type in the day you are interested in (Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday, or All)): ").lower()
+        #check if day is in allowable, if not ask for input again
         if day not in ("sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "all"):
             print("Incorrect input for Day. PLease try again") 
             continue
@@ -63,6 +66,7 @@ def load_data(city, month, day):
     Returns:
         df - Pandas DataFrame containing city data filtered by month and day
     """
+    #read the file cited by dictionary, throw error if needed
     try:
         df = pd.read_csv(CITY_DATA[city])        
     except Exception as e:
@@ -167,17 +171,23 @@ def user_stats(df):
     print("Types of ssers for this location include: \n{}".format(users))
 
     # Display counts of gender
+    #check if column exists
     if "Gender" in df.columns:
+        #run statistics
         genders = df["Gender"].value_counts().rename_axis("Gender").to_frame(name="Counts")
+        print("Genders for specific filters are as follows:\n{}".format(genders))
     else:
+        #inform user data not available
         print("Gender statistics are not available for this city. ")
 
     # Display earliest, most recent, and most common year of birth
+    #check if column exists
     if "Birth Year" in df.columns:
+        #run statistics
         birth_year_min = int(df["Birth Year"].min())
         birth_year_max = int(df["Birth Year"].max())
         birth_year_most_common = int(df["Birth Year"].value_counts().idxmax())
-
+        #inform user data not available
         print("For selected filters: \n\nThe earliest birth year is {} \n\n The most recent birth year is {} \n\n The most common birth year is {} ".format(birth_year_min, birth_year_max, birth_year_most_common))
 
     else:
@@ -186,7 +196,15 @@ def user_stats(df):
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
-
+    
+def raw_data(df):
+    lines = 0
+    
+    rawmode = input("\nWould you see 5 lines of raw data? Enter yes or no.\n").lower()
+    while rawmode == "yes":
+        lines += 5
+        print(df.head(lines))
+        rawmode = input("\nWould you see 5 more lines of raw data? Enter yes or no.\n").lower()
 
 def main():
     while True:
@@ -197,6 +215,8 @@ def main():
         station_stats(df)
         trip_duration_stats(df)
         user_stats(df)
+        
+        raw_data(df)
 
         restart = input('\nWould you like to restart? Enter yes or no.\n')
         if restart.lower() != 'yes':
