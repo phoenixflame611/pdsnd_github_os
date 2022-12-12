@@ -171,17 +171,23 @@ def user_stats(df):
     print("Types of ssers for this location include: \n{}".format(users))
 
     # Display counts of gender
+    #check if column exists
     if "Gender" in df.columns:
+        #run statistics
         genders = df["Gender"].value_counts().rename_axis("Gender").to_frame(name="Counts")
+        print("Genders for specific filters are as follows:\n{}".format(genders))
     else:
+        #inform user data not available
         print("Gender statistics are not available for this city. ")
 
     # Display earliest, most recent, and most common year of birth
+    #check if column exists
     if "Birth Year" in df.columns:
+        #run statistics
         birth_year_min = int(df["Birth Year"].min())
         birth_year_max = int(df["Birth Year"].max())
         birth_year_most_common = int(df["Birth Year"].value_counts().idxmax())
-
+        #inform user data not available
         print("For selected filters: \n\nThe earliest birth year is {} \n\n The most recent birth year is {} \n\n The most common birth year is {} ".format(birth_year_min, birth_year_max, birth_year_most_common))
 
     else:
