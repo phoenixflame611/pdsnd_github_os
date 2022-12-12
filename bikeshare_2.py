@@ -66,6 +66,7 @@ def load_data(city, month, day):
     Returns:
         df - Pandas DataFrame containing city data filtered by month and day
     """
+    #read the file cited by dictionary, throw error if needed
     try:
         df = pd.read_csv(CITY_DATA[city])        
     except Exception as e:
